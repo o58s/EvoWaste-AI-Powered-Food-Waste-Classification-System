@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Profile </title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+  <main class="app-container">
+    <header class="header">
+      <div class="brand">
+        <a href="{{ url_for('home_page') }}" class="logo">E-W</a>
+        <div>
+          <div class="title">Profile</div>
+          <div class="subtitle small">Manage your account</div>
+        </div>
+      </div>
+      <div class="row">
+        <a class="link" href="{{ url_for('upload') }}">Classify</a>
+        <a class="link" href="{{ url_for('history') }}">History</a>
+      </div>
+    </header>
+
+    <section class="card view visible">
+      <div class="profile-grid">
+        <div class="card profile-info">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:84px;height:84px;border-radius:14px;background:linear-gradient(90deg,var(--accent-green),var(--accent-teal));display:flex;align-items:center;justify-content:center;font-weight:800;color:#041013;font-size:20px">
+              {{ (email[0] if email) | upper if email else 'U' }}
+            </div>
+            <div>
+              <div style="font-weight:800">{{ email or 'Unknown user' }}</div>
+              <div class="muted small">{{ location or 'Location not set' }}</div>
+            </div>
+          </div>
+
+          <form method="post" action="{{ url_for('profile') }}" style="margin-top:12px">
+            <div class="input-group">
+              <label for="name">Full name </label>
+              <input id="name" name="name" type="text" value="{{ name }}">
+            </div>
+            <div class="input-group">
+              <label for="email">Email (read-only)</label>
+              <input id="email" name="email" type="email" value="{{ email }}" readonly>
+            </div>
+            <div class="input-group">
+              <label for="location">Location</label>
+              <input id="location" name="location" type="text" value="{{ location }}">
+            </div>
+            <div style="display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:6px">
+              <button class="btn btn-primary" type="submit">Update Profile</button>
+              
+            </div>
+          </form>
+        </div>
+
+        <aside class="card">
+          <div style="font-weight:700;margin-bottom:8px">Account Actions</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <a class="btn btn-ghost" href="{{ url_for('logout') }}">Logout</a>
+            
+        </aside>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

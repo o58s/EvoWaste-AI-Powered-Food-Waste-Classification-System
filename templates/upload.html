@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Classify Your Food Waste</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="app-container" role="main">
+    <header class="header">
+      <div class="brand">
+        <a href="{{ url_for('home_page') }}" class="logo">E-W</a>
+        <div>
+          <div class="title">Classify Your Food Waste</div>
+          <div class="subtitle small">Upload an image to analyze with our AI model</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <a class="link" href="{{ url_for('history') }}">History</a>
+        <a class="link" href="{{ url_for('profile') }}">Profile</a>
+      </div>
+    </header>
+
+    <section class="card view visible" aria-labelledby="classifyHeading">
+      <h2 id="classifyHeading" style="margin:0 0 12px 0">Upload & Classify</h2>
+
+      <!-- Display server-side error if exists -->
+      {% if error %}
+      <div class="card" style="margin-bottom:12px;color:var(--danger)">{{ error }}</div>
+      {% endif %}
+
+      <!-- Upload form with location -->
+      <form id="uploadForm" method="post" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+        <div class="input-group" style="margin-bottom:12px">
+          <label for="uploadLocation">Location of waste (City, Country)</label>
+          <input id="uploadLocation" name="uploadLocation" type="text" placeholder="{{ session.get('location','') }}" value="{{ session.get('location','') }}">
+        </div>
+
+        <div id="uploadArea" class="upload-area" tabindex="0">
+          <div class="upload-icon">🍽</div>
+          <div class="upload-instructions">Drag & Drop Image Here or Click to Upload</div>
+          <div class="upload-sub">Supported: JPG, PNG — Max size: 8MB</div>
+          <input id="fileInput" type="file" name="image" accept="image/*" style="display:none">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="margin-top:12px">Upload & Classify</button>
+      </form>
+
+      <!-- Client-side loader -->
+      <div id="clientLoader" style="display:none;margin-top:16px" class="card">
+        <div class="row">
+          <div class="loader" aria-hidden="true"></div>
+          <div>
+            <div style="font-weight:700">Uploading & analyzing…</div>
+            <div class="muted small">Waiting for server response — this may take a few seconds.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Server-side result -->
+      {% if prediction and image_path %}
+      <div style="margin-top:16px">
+        <div class="card result-card">
+          <div class="result-thumb">
+            <img src="{{ url_for('static', filename=image_path) }}" alt="result thumbnail" style="width:100%;height:100%;object-fit:cover">
+          </div>
+          <div class="result-body">
+            <div class="result-title">Result: 
+              <span style="color:{{ 'var(--success)' if prediction.lower().startswith('compost') else 'var(--danger)' }}">
+                {{ prediction }}
+              </span>
+            </div>
+            <div class="result-meta">Confidence: <strong>{{ confidence }}%</strong></div>
+            <div class="result-meta">Location: {{ session.get('upload_location', session.get('location','Unknown')) }} • {{ (session.get('history')[-1].time if session.get('history') else '') }}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+            <a class="btn btn-ghost" href="{{ url_for('static', filename=image_path) }}" target="_blank" download>Download</a>
+            <a class="btn btn-primary" href="{{ url_for('upload') }}">Upload Another</a>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <script>
+      // Drag & drop + auto-submit integration
+      const uploadArea = document.getElementById('uploadArea');
+      const fileInput = document.getElementById('fileInput');
+      const uploadForm = document.getElementById('uploadForm');
+      const clientLoader = document.getElementById('clientLoader');
+
+      function showClientLoader(){ clientLoader.style.display = 'block'; uploadArea.style.display = 'none'; }
+      function hideClientLoader(){ clientLoader.style.display = 'none'; uploadArea.style.display = 'block'; }
+
+      uploadArea.addEventListener('click', ()=> fileInput.click());
+
+      uploadArea.addEventListener('dragover', (e)=>{
+        e.preventDefault();
+        uploadArea.classList.add('hover');
+      });
+      uploadArea.addEventListener('dragleave', ()=> uploadArea.classList.remove('hover'));
+      uploadArea.addEventListener('drop', (e)=>{
+        e.preventDefault();
+        uploadArea.classList.remove('hover');
+        const f = e.dataTransfer.files[0];
+        if(!f) return;
+        fileInput.files = e.dataTransfer.files;
+        showClientLoader();
+        uploadForm.submit();
+      });
+
+      fileInput.addEventListener('change', (e)=>{
+        if(!e.target.files || e.target.files.length === 0) return;
+        showClientLoader();
+        uploadForm.submit();
+      });
+      </script>
+
+    </section>
+
+    <footer style="text-align:center;color:var(--muted);margin-top:12px;font-size:13px">
+      EvoWaste • By ZenoSoft.
+    </footer>
+
+  </main>
+</body>
+</html>

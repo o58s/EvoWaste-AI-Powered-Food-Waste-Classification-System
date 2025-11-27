@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Home </title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="app-container">
+    <header class="header">
+      <div class="brand">
+        <div class="logo">E-W</div>
+        <div>
+          <div class="title">Welcome to EvoWaste</div>
+          <div class="subtitle small">Track and classify your food waste efficiently</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <a class="link" href="{{ url_for('profile') }}">Profile</a>
+        <a class="link" href="{{ url_for('logout') }}">Logout</a>
+      </div>
+    </header>
+
+    <section class="card view visible">
+      <h2 style="margin-bottom:12px">Hello, {{ user_name }}</h2>
+      <p class="muted">Your current location: {{ location }}</p>
+
+      <div style="display:flex;gap:20px;margin-top:16px;flex-wrap:wrap;">
+        <a href="{{ url_for('upload') }}" class="btn btn-primary" style="flex:1;min-width:150px;text-align:center">Classify New Waste</a>
+        <a href="{{ url_for('history') }}" class="btn btn-primary" style="flex:1;min-width:150px;text-align:center">View History</a>
+      </div>
+    </section>
+
+    <footer style="text-align:center;color:var(--muted);margin-top:12px;font-size:13px">
+      EvoWaste • By ZenoSoft.
+    </footer>
+  </main>
+</body>
+</html>

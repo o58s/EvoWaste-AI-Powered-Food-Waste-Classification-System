@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>History </title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+  <main class="app-container">
+    <header class="header">
+      <div class="brand">
+        <a href="{{ url_for('home_page') }}" class="logo">E-W</a>
+        <div>
+          <div class="title">History</div>
+          <div class="subtitle small">Your recent classifications</div>
+        </div>
+      </div>
+      <div class="row">
+        <a class="link" href="{{ url_for('upload') }}">Classify</a>
+        <a class="link" href="{{ url_for('profile') }}">Profile</a>
+      </div>
+    </header>
+
+    <section class="card view visible">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:700">Classification History</div>
+        <div class="muted small">Showing recent uploads</div>
+      </div>
+
+      <div style="margin-top:14px" class="history-grid" id="historyGrid">
+        {% if history %}
+          {% for item in history %}
+          <div class="card history-card">
+            <div class="thumb-small">
+              <img src="{{ url_for('static', filename= item.image_path) }}" alt="thumb" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div style="flex:1">
+              <div style="font-weight:700">{{ item.classification }}</div>
+              <div class="muted small">{{ item.confidence }}% • {{ item.location }}</div>
+              <div class="muted small">{{ item.time }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <div class="card muted">No history to show yet. Start by uploading an image on the <a class="link" href="{{ url_for('upload') }}">Classify</a> page.</div>
+        {% endif %}
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
