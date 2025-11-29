@@ -13,10 +13,10 @@ Upload an image and let the YOLO model predict the waste category with confidenc
 Every classification is saved with:
 
 Date & Time
--Predicted Category
--Confidence
--User Location
--Image Preview
+- Predicted Category
+- Confidence
+- User Location
+- Image Preview
 
 ### Location-Based Insights
 Captures user location for potential analytics and heat-map visualization.
@@ -24,9 +24,9 @@ Captures user location for potential analytics and heat-map visualization.
 
 ### User System
 
--Sign up
--Login
--Profile editing
+- Sign up
+- Login
+- Profile editing
 
 ### MySQL Database Integration
 
@@ -34,17 +34,17 @@ Stores users, classifications, timestamps, and image paths.
 
 ### Modern UI/UX
 
--Drag-&-drop image upload
--Animated loaders
--Dynamic result display
+- Drag-&-drop image upload
+- Animated loaders
+- Dynamic result display
 
 ## Tech Stack
 
--Backend: Python, Flask
--AI Model: YOLO (Ultralytics)
--Database: MySQL
--Frontend: HTML, CSS, JavaScript
--Tools: Roboflow (for dataset creation & annotation)
+- Backend: Python, Flask
+- AI Model: YOLO (Ultralytics)
+- Database: MySQL
+- Frontend: HTML, CSS, JavaScript
+- Tools: Roboflow (for dataset creation & annotation)
 
 ## Installation & Setup
 
@@ -53,27 +53,27 @@ Follow the steps below to run EvoWaste locally.
 ### Prerequisites
 
 Make sure you have installed:
--Python 3.9+
--pip
--MySQL Server
--Git
--YOLO model file (best.pt)
+- Python 3.9+
+- pip
+- MySQL Server
+- Git
+- YOLO model file (model.pt)
 
 ### Folder Structure
 
 EvoWaste/
--│── app.py
--│── model.pt
--│── /static
--│     ├── style.css/
--│     └── uploads/
--│── /templates
--│     ├── signup.html
--│     ├── login.html
--│     ├── home.html
--│     └── upload.html
--│     ├── history.html
--│     ├── profile.html
+- │── app.py
+- │── model.pt
+- │── /static
+- │     ├── style.css/
+- │     └── uploads/
+- │── /templates
+- │     ├── signup.html
+- │     ├── login.html
+- │     ├── home.html
+- │     └── upload.html
+- │     ├── history.html
+- │     ├── profile.html
 
 
 
